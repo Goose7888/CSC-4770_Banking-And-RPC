@@ -2,12 +2,13 @@
 
 #pragma once
 
-//// Includes:
 #include <string>
 #include <unordered_map>
+#include <stdexcept>
 
 //// Types:
 typedef std::string Account;
+typedef std::unordered_map<std::string, std::string> Arguments;
 
 //// Function Definitions:
 
@@ -17,9 +18,8 @@ void credit(Account acct);
 // debits an account
 void debit(Account acct);
 
-// transfers money between accounts by crediting one account
-// and debitting the other
+// transfers money by creditting acct_a and debitting acct_b
 void transfer(Account acct_a, Account acct_b);
 
 // parses cmd line parameters to determine operation
-std::unordered_map<std::string, std::string> parse_args(int argc, char* argv[]);
+Arguments parseArgs(int argc, char** argv);
