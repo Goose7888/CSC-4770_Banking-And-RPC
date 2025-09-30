@@ -19,9 +19,7 @@ multiple bank services through a unified interface.
 You will implement a distributed banking system with the following
 architecture:
 
-![The picture
-](/content/enforced/10238929-80689.202580/architecture.png "The picture "){width="768"
-height="324"}
+<img width="904" height="382" alt="image" src="https://github.com/user-attachments/assets/0925a5de-d540-40b1-94d0-73077476a7c7" />
 
 -   A **client** can perform operations: `credit`, `debit`, and
     `transfer`.  Client use RPC to communication with the middleware.
