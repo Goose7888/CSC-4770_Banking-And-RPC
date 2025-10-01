@@ -26,11 +26,11 @@ void credit(Account acct, u_int amount) {
 }
 
 void debit(Account acct, u_int amount) {
-    // Use RPC to write to `int VB_credit(string account, int amount)`
+    // Use RPC to write to `int VB_debit(string account, int amount)`
 }
 
 void transfer(Account acct_a, Account acct_b, u_int amount) {
-    // Use RPC to write to `int VB_credit(string account, int amount)`
+    // Use RPC to write to `int VB_transfer(string account1, string account2, int amount)`
 }
 
 Arguments parseArgs(int argc, char** argv) {
