@@ -5,6 +5,11 @@
 int main(int argc, char** argv) {
     Arguments args = parseArgs(argc, argv);
 
+    int amount = stoi(args["amount"]);
+    if (amount < 0) {
+        throw std::out_of_range("Negative amounts not allowed!");
+    }
+
     if (args["operationMode"] == "credit") {
         credit(args["acct_a"], stoi(args["amount"]));
     }
@@ -21,15 +26,15 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-void credit(Account acct, u_int amount) {
+void credit(Account acct, int amount) {
     // Use RPC to write to `int VB_credit(string account, int amount)`
 }
 
-void debit(Account acct, u_int amount) {
+void debit(Account acct, int amount) {
     // Use RPC to write to `int VB_debit(string account, int amount)`
 }
 
-void transfer(Account acct_a, Account acct_b, u_int amount) {
+void transfer(Account acct_a, Account acct_b, int amount) {
     // Use RPC to write to `int VB_transfer(string account1, string account2, int amount)`
 }
 

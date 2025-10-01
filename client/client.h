@@ -7,20 +7,21 @@
 #include <stdexcept>
 #include <sys/types.h>
 
-//// Types:
+// Types:
 typedef std::string Account;
 typedef std::unordered_map<std::string, std::string> Arguments;
 
-//// Function Declarations:
+
+// Function Declarations:
 
 // credits an account
-void credit(Account acct, u_int amount);
+void credit(Account acct, int amount);
 
 // debits an account
-void debit(Account acct, u_int amount);
+void debit(Account acct, int amount);
 
 // transfers money by creditting acct_a and debitting acct_b
-void transfer(Account acct_a, Account acct_b, u_int amount);
+void transfer(Account acct_a, Account acct_b, int amount);
 
 // parses cmd line parameters to determine operation
 Arguments parseArgs(int argc, char** argv);
