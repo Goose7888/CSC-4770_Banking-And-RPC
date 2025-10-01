@@ -6,13 +6,13 @@ int main(int argc, char** argv) {
     Arguments args = parseArgs(argc, argv);
 
     if (args["operationMode"] == "credit") {
-        credit(args["acct_a"], args["amount"]);
+        credit(args["acct_a"], stoi(args["amount"]));
     }
     else if (args["operationMode"] == "debit") {
-        debit(args["acct_a"], args["amount"]);
+        debit(args["acct_a"], stoi(args["amount"]));
     }
     else if (args["operationMode"] == "transfer") {
-        transfer(args["acct_a"], args["acct_b"], args["amount"]);
+        transfer(args["acct_a"], args["acct_b"], stoi(args["amount"]));
     }
     else {
         throw std::invalid_argument("Invalid operation mode!");
