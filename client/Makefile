@@ -8,3 +8,6 @@ client.out:		client.o
 
 client.o:	client.h client.cpp
 	$(CXX) $(CXXFLAGS) client.cpp -c -o client.o
+
+clean:
+	rm -f *.o *.out
