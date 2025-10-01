@@ -1,5 +1,10 @@
 CXX = g++
-CXXFLAGS = -Wall -Wextra
+CXXFLAGS = -Wall -Wextra -lsqlite3
 
-all	:	
+all				:	bank_server.out
 
+bank_server.out	:	bank_server.o
+	$(CXX) $(CXXFLAGS) -o bank_server.out bank_server.o
+
+bank_server.o	: bank_server.cpp bank_server.h
+	$(CXX) $(CXXFLAGS) -c -o bank_server.o bank_server.cpp
