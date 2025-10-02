@@ -8,7 +8,13 @@
 
 typedef std::string Account;
 
-sqlite3* initServer(std::string dbPath);
+// Defines who the program will do banking for
+enum operation_mode {
+    BANK1,
+    BANK2
+};
+
+sqlite3* initServer(int operation_mode);
 void credit(Account acct, int amount);
 void debit(Account acct, int amount);
 // transfers will be done by the virtual bank
