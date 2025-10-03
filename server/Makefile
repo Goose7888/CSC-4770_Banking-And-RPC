@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -Wextra -lsqlite3
+CXXFLAGS = -Wall -Wextra -lsqlite3 -g
 
 all				:	bank_server.out
 
@@ -11,3 +11,6 @@ bank_server.o	: bank_server.cpp bank_server.h
 
 clean:
 	rm -f *.o *.out
+
+run: bank_server.out
+	./bank_server.out --bank1
