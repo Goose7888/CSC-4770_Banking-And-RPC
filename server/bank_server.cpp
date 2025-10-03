@@ -76,6 +76,7 @@ void initDB(sqlite3* db) {
         }
 
         std::cout << sqlite3_step(ctblStmt) << std::endl;
+        sqlite3_finalize(ctblStmt);
     }
 
     // At this point, the Accounts table now exists 🎉🎉
