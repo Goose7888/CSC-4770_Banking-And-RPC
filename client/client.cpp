@@ -7,35 +7,26 @@ int main(int argc, char** argv) {
 
     int amount = stoi(args["amount"]);
     if (amount < 0) {
-        throw std::out_of_range("Negative amounts not allowed!");
+        std::cerr << "Negative values not allowed!" << std::endl;
+        return 1;
     }
 
     if (args["operationMode"] == "credit") {
-        credit(args["acct_a"], stoi(args["amount"]));
+        // credit(args["acct_a"], stoi(args["amount"]));
     }
     else if (args["operationMode"] == "debit") {
-        debit(args["acct_a"], stoi(args["amount"]));
+        // debit(args["acct_a"], stoi(args["amount"]));
     }
     else if (args["operationMode"] == "transfer") {
-        transfer(args["acct_a"], args["acct_b"], stoi(args["amount"]));
+        // transfer(args["acct_a"], args["acct_b"], stoi(args["amount"]));
     }
     else {
         throw std::invalid_argument("Invalid operation mode!");
+        std::cerr << "Invalid operation mode!" << std::endl;
+        return 1;
     }
 
     return 0;
-}
-
-void credit(Account acct, int amount) {
-    // Use RPC to write to `int VB_credit(string account, int amount)`
-}
-
-void debit(Account acct, int amount) {
-    // Use RPC to write to `int VB_debit(string account, int amount)`
-}
-
-void transfer(Account acct_a, Account acct_b, int amount) {
-    // Use RPC to write to `int VB_transfer(string account1, string account2, int amount)`
 }
 
 Arguments parseArgs(int argc, char** argv) {
