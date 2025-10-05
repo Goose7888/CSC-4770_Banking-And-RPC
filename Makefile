@@ -1,48 +1,26 @@
+TARGETS = client virtual_bank bank1 bank2
+CLIENT_TARGETS = client virtual_bank_server.o
+BANK1_TARGETS = virtual_bank_bank1.o bank1
+BANK2_TARGETS = virtual_bank_bank2.o bank2
 
-CLIENT = client
-SERVER = virtual_bank
+VBANK_OBJECTS = virtual_bank_server.o  vbank_svc.o virtual_bank.o
+LD = g++
+CXXFLAGS = -I/usr/include/tirpc
+LDFLAGS = -ltirpc -lnsl
 
-# user-created source files
-SOURCES_CLNT.cpp = client.cpp
-SOURCES_CLNT.h = client.h
-SOURCES_SVC.cpp = virtual_bank.cpp
-SOURCES_SVC.h =
-SOURCES_SVC.hpp = virtual_bank.hpp
-SOURCES.x = vbank.x
+all : $(TARGETS)
 
-# rpcgen-generated source files
-TARGETS_CLNT.c = vbank_clnt.c
-TARGETS_SVC.c = vbank_svc.c
-TARGETS = vbank.h vbank_clnt.c vbank_svc.c
+$(VBANK_TARGETS) :
+	$(MAKE) -C ./virtual_bank
+	cp $(VBANK_TARGETS) .
 
-# objects defines from all source files
-OBJECTS_CLNT = $(SOURCES_CLNT.c:%.c=%.o) $(TARGETS_CLNT.c:%.c=%.o) $(SOURCES_CLNT.cpp:%.cpp=%.o)
-OBJECTS_SVC = $(SOURCES_SVC.c:%.c=%.o) $(TARGETS_SVC.c:%.c=%.o) $(SOURCES_SVC.cpp:%.cpp=%.o)
+$(BANK1_TARGETS) :
+	$(MAKE) -C . -f Makefile.bank1
 
-# compiler, linker, and rpcgen configuration
-CC = gcc
-CXX = g++
-LINK.c = g++
-CFLAGS += -g -I/usr/include/tirpc
-CXXFLAGS += -g -Wall -Wextra -I/usr/include/tirpc
-LDLIBS += -lnsl -ltirpc
-RPCGENFLAGS =
+$(BANK2_TARGETS) :
+	$(MAKE) -C . -f Makefile.bank2
 
-# rules to make targets
-all : $(CLIENT) $(SERVER)
-
-$(TARGETS) : $(SOURCES.x)
-	rpcgen $(RPCGENFLAGS) $(SOURCES.x)
-
-$(OBJECTS_CLNT) : $(SOURCES_CLNT.c) $(SOURCES_CLNT.h) $(TARGETS_CLNT.c)
-
-$(OBJECTS_SVC) : $(SOURCES_SVC.c) $(SOURCES_SVC.h) $(TARGETS_SVC.c)
-
-$(CLIENT) : $(OBJECTS_CLNT)
-	$(LINK.c) -o $(CLIENT) $(OBJECTS_CLNT) $(LDLIBS)
-
-$(SERVER) : $(OBJECTS_SVC)
-	$(LINK.c) -o $(SERVER) $(OBJECTS_SVC) $(LDLIBS)
-
-clean:
-	$(RM) $(TARGETS) $(OBJECTS_CLNT) $(OBJECTS_SVC) $(CLIENT) $(SERVER) *.o
+clean :
+	$(MAKE) -C virtual_bank clean
+	$(MAKE) -C . -f ./Makefile.bank1 clean
+	$(MAKE) -C . -f ./Makefile.bank2 clean

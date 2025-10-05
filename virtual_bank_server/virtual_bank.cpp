@@ -10,10 +10,14 @@ int* credit_1_svc(char** inputRaw, struct svc_req*) {
 
     if (params.size() != 2) {
         result = 1;
+        return &result;
     }
-    else {
-        result = 0;
-    }
+    result = 0;
+
+    std::cout << "credit:" << std::endl;
+    std::cout << "account: " << params.at(0) << std::endl;
+    std::cout << "amount: " << params.at(1) << std::endl;
+    std::cout << std::endl;
 
     return &result;
 };
@@ -27,10 +31,9 @@ int* debit_1_svc(char** inputRaw, struct svc_req*) {
 
     if (params.size() != 2) {
         result = 1;
+        return &result;
     }
-    else {
-        result = 0;
-    }
+    result = 0;
 
     return &result;
 }
@@ -44,10 +47,9 @@ int* transfer_1_svc(char** inputRaw, struct svc_req*) {
 
     if (params.size() != 3) {
         result = 1;
+        return &result;
     }
-    else {
-        result = 0;
-    }
+    result = 0;
 
     return &result;
 }
