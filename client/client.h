@@ -15,4 +15,5 @@ typedef std::unordered_map<std::string, std::string> Arguments;
 // Function Declarations:
 
 // parses cmd line parameters to determine operation
-Arguments parseArgs(int argc, char** argv);
+Arguments* parseArgs(int argc, char** argv);
+void printUsage(char** argv);

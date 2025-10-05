@@ -1,7 +1,7 @@
-#include "virtual_bank.hpp"
+#include "virtual_bank.h"
 #include "vbank.h"
 
-int* credit_1_svc(char** inputRaw, struct svc_req* rqstp) {
+int* credit_1_svc(char** inputRaw, struct svc_req*) {
     static int result;
 
     std::string input = *inputRaw;
@@ -9,16 +9,16 @@ int* credit_1_svc(char** inputRaw, struct svc_req* rqstp) {
     std::vector<std::string> params = split(input, " ");
 
     if (params.size() != 2) {
-        result = 0;
+        result = 1;
     }
     else {
-        result = 1;
+        result = 0;
     }
 
     return &result;
 };
 
-int* debit_1_svc(char** inputRaw, struct svc_req* rqstp) {
+int* debit_1_svc(char** inputRaw, struct svc_req*) {
     static int result;
 
     std::string input = *inputRaw;
@@ -26,17 +26,16 @@ int* debit_1_svc(char** inputRaw, struct svc_req* rqstp) {
     std::vector<std::string> params = split(input, " ");
 
     if (params.size() != 2) {
-        result = 0;
-    }
-    else {
         result = 1;
     }
+    else {
+        result = 0;
+    }
 
-    result = 1;
     return &result;
 }
 
-int* transfer_1_svc(char** inputRaw, struct svc_req* rqstp) {
+int* transfer_1_svc(char** inputRaw, struct svc_req*) {
     static int result;
 
     std::string input = *inputRaw;
@@ -44,13 +43,12 @@ int* transfer_1_svc(char** inputRaw, struct svc_req* rqstp) {
     std::vector<std::string> params = split(input, " ");
 
     if (params.size() != 3) {
-        result = 0;
-    }
-    else {
         result = 1;
     }
+    else {
+        result = 0;
+    }
 
-    result = 1;
     return &result;
 }
 
