@@ -1,5 +1,5 @@
 
-CLIENT = virtual_bank
+CLIENT = virtual_bank_bank1
 SERVER = bank1
 
 # user-created source files

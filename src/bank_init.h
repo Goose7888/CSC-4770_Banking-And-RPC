@@ -1,4 +1,4 @@
-/* bank_server.h */
+/* bank_init.h */
 
 #pragma once
 
@@ -16,6 +16,4 @@ enum operation_mode {
 
 sqlite3* initServer(int operation_mode);
 void initDB(sqlite3* db);
-void credit(Account acct, int amount);
-void debit(Account acct, int amount);
 // transfers will be done by the virtual bank

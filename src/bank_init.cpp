@@ -1,6 +1,6 @@
-/* bank-server.cpp */
+/* bank-init.cpp */
 
-#include "bank_server.h"
+#include "bank_init.h"
 #include <sqlite3.h>
 
 int main(int argc, char** argv) {

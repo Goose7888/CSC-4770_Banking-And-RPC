@@ -10,6 +10,7 @@ program BANKPROG1 {
     version BANKVERS {
         int CREDIT(string) = 1;
         int DEBIT(string) = 2;
-        account ACCT_LOOKUP(string) = 4;
+        account ACCT_LOOKUP(string) = 3;
+        int INITIALIZE_BANK() = 4;
     } = 1;
 } = 0x200023;
