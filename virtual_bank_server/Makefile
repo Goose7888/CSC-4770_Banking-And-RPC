@@ -1,13 +1,12 @@
 
 CLIENT = client
-SERVER = virtual_bank_server.o
+SERVER = virtual_bank_server
 
 # user-created source files
 SOURCES_CLNT.cpp = client.cpp
 SOURCES_CLNT.h = client.h
-SOURCES_SVC.cpp = virtual_bank.cpp
-SOURCES_SVC.h =
-SOURCES_SVC.hpp = virtual_bank.hpp
+SOURCES_SVC.cpp = virtual_bank_server.cpp
+SOURCES_SVC.h = virtual_bank_server.h
 SOURCES.x = vbank.x
 
 # rpcgen-generated source files
@@ -42,7 +41,7 @@ $(CLIENT) : $(OBJECTS_CLNT)
 	$(LINK.c) -o $(CLIENT) $(OBJECTS_CLNT) $(LDLIBS)
 
 $(SERVER) : $(OBJECTS_SVC)
-	$(LINK.c) -c -o $(SERVER) $(OBJECTS_SVC) $(LDLIBS)
+	$(LINK.c) -o $(SERVER) $(OBJECTS_SVC) $(LDLIBS)
 
 clean:
 	$(RM) $(TARGETS) $(OBJECTS_CLNT) $(OBJECTS_SVC) $(CLIENT) $(SERVER) *.o

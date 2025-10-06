@@ -1,4 +1,4 @@
-#include "virtual_bank.h"
+#include "virtual_bank_server.h"
 #include "vbank.h"
 
 int* credit_1_svc(char** inputRaw, struct svc_req*) {
