@@ -1,23 +1,22 @@
 
-CLIENT = virtual_bank_bank1
-SERVER = bank1
+CLIENT = client
+VBANK = virtual_bank
 
 # user-created source files
-SOURCES_CLNT.cpp =
-SOURCES_CLNT.h =
-SOURCES_SVC.cpp =
-SOURCES_SVC.h =
-SOURCES_SVC.hpp =
-SOURCES.x = bank1.x
+VBANK_SOURCES_CLNT.cpp = client.cpp
+VBANK_SOURCES_CLNT.h = client.h
+VBANK_SOURCES_SVC.cpp = virtual_bank.cpp
+VBANK_SOURCES_SVC.h = virtual_bank.h
+VBANK_SOURCES.x = vbank.x
 
 # rpcgen-generated source files
-TARGETS_CLNT.c = bank1_clnt.c
-TARGETS_SVC.c = bank1_svc.c
-TARGETS = bank1.h bank1_clnt.c bank1_svc.c
+VBANK_TARGETS_CLNT.c = vbank_clnt.c
+VBANK_TARGETS_SVC.c = vbank_svc.c
+VBANK_TARGETS = vbank.h vbank_clnt.c vbank_svc.c
 
 # objects defines from all source files
-OBJECTS_CLNT = $(SOURCES_CLNT.c:%.c=%.o) $(TARGETS_CLNT.c:%.c=%.o) $(SOURCES_CLNT.cpp:%.cpp=%.o)
-OBJECTS_SVC = $(SOURCES_SVC.c:%.c=%.o) $(TARGETS_SVC.c:%.c=%.o) $(SOURCES_SVC.cpp:%.cpp=%.o)
+VBANK_OBJECTS_CLNT = $(VBANK_SOURCES_CLNT.c:%.c=%.o) $(VBANK_TARGETS_CLNT.c:%.c=%.o) $(VBANK_SOURCES_CLNT.cpp:%.cpp=%.o)
+VBANK_OBJECTS_SVC = $(VBANK_SOURCES_SVC.c:%.c=%.o) $(VBANK_TARGETS_SVC.c:%.c=%.o) $(VBANK_SOURCES_SVC.cpp:%.cpp=%.o)
 
 # compiler, linker, and rpcgen configuration
 CC = gcc
@@ -25,24 +24,24 @@ CXX = g++
 LINK.c = g++
 CFLAGS += -g -I/usr/include/tirpc
 CXXFLAGS += -g -Wall -Wextra -I/usr/include/tirpc
-LDLIBS += -lnsl -ltirpc -lsqlite3
+LDLIBS += -lnsl -ltirpc
 RPCGENFLAGS =
 
 # rules to make targets
-all : $(CLIENT) $(SERVER)
+all : $(CLIENT) $(VBANK)
 
-$(TARGETS) : $(SOURCES.x)
-	rpcgen $(RPCGENFLAGS) $(SOURCES.x)
+$(VBANK_TARGETS) : $(VBANK_SOURCES.x)
+	rpcgen $(RPCGENFLAGS) $(VBANK_SOURCES.x)
 
-$(OBJECTS_CLNT) : $(SOURCES_CLNT.c) $(SOURCES_CLNT.h) $(TARGETS_CLNT.c)
+$(VBANK_OBJECTS_CLNT) : $(VBANK_SOURCES_CLNT.c) $(VBANK_SOURCES_CLNT.h) $(VBANK_TARGETS_CLNT.c)
 
-$(OBJECTS_SVC) : $(SOURCES_SVC.c) $(SOURCES_SVC.h) $(TARGETS_SVC.c)
+$(VABNK_OBJECTS_SVC) : $(VBANK_SOURCES_SVC.c) $(VBANK_SOURCES_SVC.h) $(VBANK_TARGETS_SVC.c)
 
-$(CLIENT) : $(OBJECTS_CLNT)
-	$(LINK.c) -o $(CLIENT) $(OBJECTS_CLNT) $(LDLIBS)
+$(CLIENT) : $(VBANK_OBJECTS_CLNT)
+	$(LINK.c) -o $(CLIENT) $(VBANK_OBJECTS_CLNT) $(LDLIBS)
 
-$(SERVER) : $(OBJECTS_SVC)
-	$(LINK.c) -o $(SERVER) $(OBJECTS_SVC) $(LDLIBS)
+$(VBANK) : $(VBANK_OBJECTS_SVC)
+	$(LINK.c) -o $(VBANK) $(VBANK_OBJECTS_SVC) $(LDLIBS)
 
 clean:
-	$(RM) $(TARGETS) $(OBJECTS_CLNT) $(OBJECTS_SVC) $(CLIENT) $(SERVER) *.o
+	$(RM) $(VBANK_TARGETS) $(VBANK_OBJECTS_CLNT) $(VBANK_OBJECTS_SVC) $(CLIENT) $(VBANK) *.o

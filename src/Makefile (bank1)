@@ -1,18 +1,19 @@
 
-CLIENT = client
-SERVER = virtual_bank_server
+CLIENT = virtual_bank_bank1
+SERVER = bank1
 
 # user-created source files
-SOURCES_CLNT.cpp = client.cpp
-SOURCES_CLNT.h = client.h
-SOURCES_SVC.cpp = virtual_bank_server.cpp
-SOURCES_SVC.h = virtual_bank_server.h
-SOURCES.x = vbank.x
+SOURCES_CLNT.cpp =
+SOURCES_CLNT.h =
+SOURCES_SVC.cpp =
+SOURCES_SVC.h =
+SOURCES_SVC.hpp =
+SOURCES.x = bank1.x
 
 # rpcgen-generated source files
-TARGETS_CLNT.c = vbank_clnt.c
-TARGETS_SVC.c = vbank_svc.c
-TARGETS = vbank.h vbank_clnt.c vbank_svc.c
+TARGETS_CLNT.c = bank1_clnt.c
+TARGETS_SVC.c = bank1_svc.c
+TARGETS = bank1.h bank1_clnt.c bank1_svc.c
 
 # objects defines from all source files
 OBJECTS_CLNT = $(SOURCES_CLNT.c:%.c=%.o) $(TARGETS_CLNT.c:%.c=%.o) $(SOURCES_CLNT.cpp:%.cpp=%.o)
@@ -24,7 +25,7 @@ CXX = g++
 LINK.c = g++
 CFLAGS += -g -I/usr/include/tirpc
 CXXFLAGS += -g -Wall -Wextra -I/usr/include/tirpc
-LDLIBS += -lnsl -ltirpc
+LDLIBS += -lnsl -ltirpc -lsqlite3
 RPCGENFLAGS =
 
 # rules to make targets
