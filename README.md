@@ -30,18 +30,8 @@ architecture:
 -   **BANK1** and **BANK2** are individual RPC servers managing their
     own accounts.
 
-### Procedures to Implement
+<img width="797" height="631" alt="image" src="https://github.com/user-attachments/assets/e404c02d-bd1a-405f-a98f-7257871e8575" />
 
-  -------------- --------------------------------------------------------------- -----------------------------------------------------
-  Service        Procedure                                                       Description
-  VIRTUAL_BANK   int VB_credit(string account, int amount)                       Add amount to account at appropriate bank.
-  VIRTUAL_BANK   int VB_debit(string account, int amount)                        Subtract amount from account at appropriate bank.
-  VIRTUAL_BANK   int VB_transfer(string account1, string account2, int amount)   Transfer funds between accounts at different banks.
-  BANK1          int B1_credit(string account, int amount)                       Add amount to account at BANK1.
-  BANK1          int B1_debit(string account, int amount)                        Subtract amount from account at BANK1.
-  BANK2          int B2_credit(string account, int amount)                       Add amount to account at BANK2.
-  BANK2          int B2_debit(string account, int amount)                        Subtract amount from account at BANK2.
-  -------------- --------------------------------------------------------------- -----------------------------------------------------
 
 Note that for the purposes of this assignment, the Bank should never let
 an account go negative. In such a case, the bank should return an error
