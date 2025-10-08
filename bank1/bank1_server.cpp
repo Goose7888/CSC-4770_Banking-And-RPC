@@ -3,9 +3,10 @@
 #include "bank1_server.h"
 
 
-int* bank1_credit_1_svc(char** rawAcct, struct svc_req *) {
+int* b1_credit_1_svc(char* acctName, int amount, struct svc_req*) {
     int* result = nullptr;
-    account* acct = acct_lookup_1_svc(rawAcct, nullptr);
+    // account* acct = b1_acct_lookup_1_svc(*acctName, nullptr);
+    account* acct = nullptr;
 
     if (acct == NULL) {
         std::cerr << "Error! Could not connect to remote precedure!" << std::endl;
@@ -20,14 +21,33 @@ int* bank1_credit_1_svc(char** rawAcct, struct svc_req *) {
         return result;
     }
 
+    *result = 0;
+    return result;
+}
 
+int* b1_debit_1_svc(char* acctName, int amount, struct svc_req*) {
+    int* result = nullptr;
+    // account* acct = b1_acct_lookup_1_svc(*acctName, nullptr);
+    account* acct = nullptr;
+
+    if (acct == NULL) {
+        std::cerr << "Error! Could not connect to remote precedure!" << std::endl;
+        *result = 1;
+        return result;
+    }
+
+    if (acct->errorcode != 0)
+    {
+        std::cerr << "Account does not exist!" << std::endl;
+        *result = 1;
+        return result;
+    }
 
     *result = 0;
     return result;
 }
 
-
-account * bank1_acct_lookup_1_svc(char** acct, struct svc_req *) {
+account* b1_acct_lookup_1_svc(char* acct, struct svc_req *) {
 
     std::string zStmt = "SELECT FROM accounts ";
 
