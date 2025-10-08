@@ -1,8 +1,7 @@
 /* bank1_server.cpp */
 
 #include "bank1_server.h"
-#include "bank1.h"
-#include <sqlite3.h>
+
 
 int* bank1_credit_1_svc(char** rawAcct, struct svc_req *) {
     int* result = nullptr;

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "bank1.h"
+#include "../shared/bank1.h"
 #include <string>
 #include <iostream>
 #include <sqlite3.h>
