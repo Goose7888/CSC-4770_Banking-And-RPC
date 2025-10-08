@@ -5,8 +5,7 @@
 compile_commands.json
 *.tar.gz
 sample
-vbank*
-!vbank.x
+vbank.x
 
 client
 virtual_bank
