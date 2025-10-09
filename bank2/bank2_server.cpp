@@ -1,19 +1,19 @@
-/* bank1_server.cpp */
+/* bank2_server.cpp */
 
-#include "bank1_server.h"
+#include "bank2_server.h"
 
-int* b1_credit_1_svc(char* acctName, int amount, struct svc_req*) {
-    return b1_change_balance(acctName, amount, CREDIT);
+int* b2_credit_1_svc(char* acctName, int amount, struct svc_req*) {
+    return b2_change_balance(acctName, amount, CREDIT);
 }
 
-int* b1_debit_1_svc(char* acctName, int amount, struct svc_req*) {
-    return b1_change_balance(acctName, amount, DEBIT);
+int* b2_debit_1_svc(char* acctName, int amount, struct svc_req*) {
+    return b2_change_balance(acctName, amount, DEBIT);
 }
 
-int* b1_change_balance(char* acctName, int amount, int operationMode) {
+int* b2_change_balance(char* acctName, int amount, int operationMode) {
     static int ret = 0;
 
-    b1_account* acct = b1_acct_lookup_1_svc(acctName, nullptr);
+    b2_account* acct = b2_acct_lookup_1_svc(acctName, nullptr);
 
     if (acct == NULL) {
         std::cerr << "Error! Could not connect to remote precedure!" << std::endl;
@@ -49,9 +49,9 @@ int* b1_change_balance(char* acctName, int amount, int operationMode) {
     const char* zSql = buildStmt;
     int sqlite3Res;
 
-    sqlite3Res = sqlite3_open(SQLITE3_DB1, &ppDb);
+    sqlite3Res = sqlite3_open(SQLITE3_DB2, &ppDb);
     if (sqlite3Res != SQLITE_OK) {
-        std::cout << "Error opening \"bank1.db\"!" << std::endl;
+        std::cout << "Error opening \"bank2.db\"!" << std::endl;
         ret = 1;
         return &ret;
     }
@@ -79,9 +79,9 @@ int* b1_change_balance(char* acctName, int amount, int operationMode) {
     return &ret;
 }
 
-b1_account* b1_acct_lookup_1_svc(char* acct, struct svc_req *) {
-    static b1_account ret;
-    static char acct_id[128] = "";
+b2_account* b2_acct_lookup_1_svc(char* acct, struct svc_req *) {
+    static b2_account ret;
+    static char acct_id[128] = "ERROR!!";
 
     ret.id = acct_id;
 
@@ -94,9 +94,9 @@ b1_account* b1_acct_lookup_1_svc(char* acct, struct svc_req *) {
 
     sprintf(buildStmt, "SELECT balance FROM Accounts WHERE ID = \'%s\';", acct);
 
-    if (sqlite3_open(SQLITE3_DB1, &ppDb) != SQLITE_OK) {
-        std::cerr << "Cannot open \"bank1.db\"!" << std::endl;
-        std::cerr << sqlite3_open(SQLITE3_DB1, &ppDb) << std::endl;
+    if (sqlite3_open(SQLITE3_DB2, &ppDb) != SQLITE_OK) {
+        std::cerr << "Cannot open \"bank2.db\"!" << std::endl;
+        std::cerr << sqlite3_open(SQLITE3_DB2, &ppDb) << std::endl;
     }
 
     sqlite3Res = sqlite3_prepare_v2(ppDb, zSql, strlen(zSql),  &ppStmt, &pzTail);

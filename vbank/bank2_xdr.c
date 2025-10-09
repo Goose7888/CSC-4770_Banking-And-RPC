@@ -3,10 +3,10 @@
  * It was generated using rpcgen.
  */
 
-#include "../shared/bank1.h"
+#include "../shared/bank2.h"
 
 bool_t
-xdr_account (XDR *xdrs, account *objp)
+xdr_b2_account (XDR *xdrs, b2_account *objp)
 {
 	register int32_t *buf;
 
@@ -20,7 +20,7 @@ xdr_account (XDR *xdrs, account *objp)
 }
 
 bool_t
-xdr_b1_credit_1_argument (XDR *xdrs, b1_credit_1_argument *objp)
+xdr_b2_credit_1_argument (XDR *xdrs, b2_credit_1_argument *objp)
 {
 	 if (!xdr_string (xdrs, &objp->arg1, ~0))
 		 return FALSE;
@@ -30,7 +30,7 @@ xdr_b1_credit_1_argument (XDR *xdrs, b1_credit_1_argument *objp)
 }
 
 bool_t
-xdr_b1_debit_1_argument (XDR *xdrs, b1_debit_1_argument *objp)
+xdr_b2_debit_1_argument (XDR *xdrs, b2_debit_1_argument *objp)
 {
 	 if (!xdr_string (xdrs, &objp->arg1, ~0))
 		 return FALSE;

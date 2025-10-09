@@ -6,7 +6,7 @@
 #include "../shared/bank1.h"
 
 bool_t
-xdr_account (XDR *xdrs, account *objp)
+xdr_b1_account (XDR *xdrs, b1_account *objp)
 {
 	register int32_t *buf;
 

@@ -4,21 +4,21 @@
  */
 
 #include <memory.h> /* for memset */
-#include "../shared/bank1.h"
+#include "../shared/bank2.h"
 
 /* Default timeout can be changed using clnt_control() */
 static struct timeval TIMEOUT = { 25, 0 };
 
 int *
-b1_credit_1(char *arg1, int arg2,  CLIENT *clnt)
+b2_credit_1(char *arg1, int arg2,  CLIENT *clnt)
 {
-	b1_credit_1_argument arg;
+	b2_credit_1_argument arg;
 	static int clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
 	arg.arg1 = arg1;
 	arg.arg2 = arg2;
-	if (clnt_call (clnt, B1_credit, (xdrproc_t) xdr_b1_credit_1_argument, (caddr_t) &arg,
+	if (clnt_call (clnt, B2_credit, (xdrproc_t) xdr_b2_credit_1_argument, (caddr_t) &arg,
 		(xdrproc_t) xdr_int, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
@@ -27,15 +27,15 @@ b1_credit_1(char *arg1, int arg2,  CLIENT *clnt)
 }
 
 int *
-b1_debit_1(char *arg1, int arg2,  CLIENT *clnt)
+b2_debit_1(char *arg1, int arg2,  CLIENT *clnt)
 {
-	b1_debit_1_argument arg;
+	b2_debit_1_argument arg;
 	static int clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
 	arg.arg1 = arg1;
 	arg.arg2 = arg2;
-	if (clnt_call (clnt, B1_debit, (xdrproc_t) xdr_b1_debit_1_argument, (caddr_t) &arg,
+	if (clnt_call (clnt, B2_debit, (xdrproc_t) xdr_b2_debit_1_argument, (caddr_t) &arg,
 		(xdrproc_t) xdr_int, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
@@ -43,15 +43,15 @@ b1_debit_1(char *arg1, int arg2,  CLIENT *clnt)
 	return (&clnt_res);
 }
 
-b1_account *
-b1_acct_lookup_1(char *arg1,  CLIENT *clnt)
+b2_account *
+b2_acct_lookup_1(char *arg1,  CLIENT *clnt)
 {
-	static b1_account clnt_res;
+	static b2_account clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	if (clnt_call (clnt, B1_acct_lookup,
+	if (clnt_call (clnt, B2_acct_lookup,
 		(xdrproc_t) xdr_wrapstring, (caddr_t) &arg1,
-		(xdrproc_t) xdr_b1_account, (caddr_t) &clnt_res,
+		(xdrproc_t) xdr_b2_account, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
 	}
