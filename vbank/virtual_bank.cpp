@@ -7,7 +7,6 @@ int* vb_credit_1_svc(char* acct, int amount, struct svc_req*) {
     static int ret = 0;
 
     CLIENT* clnt;
-    int* result;
     char server_name[10] = "localhost";
 
     clnt = clnt_create(server_name, BANK1PROG, BANK1VERS, "tcp");
@@ -18,13 +17,18 @@ int* vb_credit_1_svc(char* acct, int amount, struct svc_req*) {
         return &ret;
     }
 
-    account* res = b1_acct_lookup_1(acct, clnt);
+    int* res = b1_credit_1(acct, amount, clnt);
     if (res== NULL) {
         clnt_perror(clnt, "Call to remote procedure failed.");
         ret = 1;
+        return &ret;
+    }
+
+    if (*res == 0) {
+        ret = 0;
     }
     else {
-        std::cout << res->errorcode << res->id << " " << res->balance << std::endl;
+        ret = 1;
     }
 
     return &ret;
