@@ -8,4 +8,10 @@
 #include "../shared/vbank.h"
 #include "../shared/bank1.h"
 
-std::vector<std::string> split(const std::string &input, const std::string &delimiter);
+#define BANK1_ADDR "localhost"
+#define BANK2_ADDR "localhost"
+
+#define CREDIT 0
+#define DEBIT 1
+
+int* vb_change_balance(char* acct, int amount, int operation_mode);

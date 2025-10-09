@@ -3,11 +3,20 @@
 #include "virtual_bank.h"
 #include "rpc/clnt.h"
 
-int* vb_credit_1_svc(char* acct, int amount, struct svc_req*) {
+int* vb_credit_1_svc(char* acct_name, int amount, struct svc_req*) {
+    return vb_change_balance(acct_name, amount, CREDIT);
+}
+
+int* vb_debit_1_svc(char* acct_name, int amount, struct svc_req*) {
+    return vb_change_balance(acct_name, amount, DEBIT);
+}
+
+int* vb_change_balance(char* acct_name, int amount, int operation_mode) {
     static int ret = 0;
+    int* res = nullptr;
 
     CLIENT* clnt;
-    char server_name[10] = "localhost";
+    char server_name[10] = BANK1_ADDR;
 
     clnt = clnt_create(server_name, BANK1PROG, BANK1VERS, "tcp");
 
@@ -17,7 +26,12 @@ int* vb_credit_1_svc(char* acct, int amount, struct svc_req*) {
         return &ret;
     }
 
-    int* res = b1_credit_1(acct, amount, clnt);
+    if (operation_mode == CREDIT) {
+        res = b1_credit_1(acct_name, amount, clnt);
+    }
+    else if (operation_mode == DEBIT) {
+        res = b1_debit_1(acct_name, amount, clnt);
+    }
     if (res== NULL) {
         clnt_perror(clnt, "Call to remote procedure failed.");
         ret = 1;
@@ -33,32 +47,9 @@ int* vb_credit_1_svc(char* acct, int amount, struct svc_req*) {
 
     return &ret;
 }
-int* vb_debit_1_svc(char* acct, int amount, struct svc_req*) {
-    static int result = 0;
 
-    return &result;
-}
 int* vb_transfer_1_svc(char* acct_1, char* acct_2, int amount, struct svc_req*) {
     static int result = 0;
 
     return &result;
-}
-
-// Like python's string `split` method
-std::vector<std::string> split(const std::string &input, const std::string &delimiter){
-    size_t pos = 0;
-    size_t lpos = 0;
-    size_t dlen = delimiter.length();
-
-    std::vector<std::string> ret;
-
-    // push_back substring before every instance of `delimiter`
-    while ((pos = input.find(delimiter, lpos)) != std::string::npos) {
-        ret.push_back(input.substr(lpos, pos - lpos));
-        lpos = pos + dlen;
-    }
-    // push_back the remainder of the string
-    ret.push_back(input.substr(lpos, input.length()));
-
-    return ret;
 }
