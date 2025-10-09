@@ -15,8 +15,8 @@ bank1.out :
 	cp bank1/bank1 bank1.out
 
 clean :
-	$(MAKE) -C client clean
-	$(MAKE) -C vbank clean
-	$(MAKE) -C bank1 clean
+	#$(MAKE) -C client clean
+	#$(MAKE) -C vbank clean
+	#$(MAKE) -C bank1 clean
 	#$(MAKE) -C bank2 clean
 	$(RM) *.out

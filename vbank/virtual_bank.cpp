@@ -5,7 +5,6 @@
 
 int* vb_credit_1_svc(char* acct, int amount, struct svc_req*) {
     static int ret = 0;
-    std::cout << "IM REALLY LOUD!!!!" << std::endl;
 
     CLIENT* clnt;
     int* result;
@@ -22,6 +21,7 @@ int* vb_credit_1_svc(char* acct, int amount, struct svc_req*) {
     account* res = b1_acct_lookup_1(acct, clnt);
     if (res== NULL) {
         clnt_perror(clnt, "Call to remote procedure failed.");
+        ret = 1;
     }
     else {
         std::cout << res->errorcode << res->id << " " << res->balance << std::endl;
