@@ -20,11 +20,13 @@ TARGETS_BANK1.c = bank1_clnt.c bank1_xdr.c
 TARGETS_BANK1 = ../shared/bank1.h bank1_clnt.c bank1_xdr.c
 TARGETS_BANK2.c = bank2_clnt.c bank2_xdr.c
 TARGETS_BANK2 = ../shared/bank2.h bank2_clnt.c bank2_xdr.c
+TARGETS = $(TARGETS_VBANK) $(TARGETS_BANK1) $(TARGETS_BANK2)
 
 # objects defines from all source files
 OBJECTS_VBANK = $(TARGETS_VBANK.c:%.c=%.o) $(SOURCES_VBANK.cpp:%.cpp=%.o)
 OBJECTS_BANK1 = $(TARGETS_BANK1.c:%.c=%.o) $(SOURCES_BANK1.cpp:%.cpp=%.o)
 OBJECTS_BANK2 = $(TARGETS_BANK2.c:%.c=%.o) $(SOURCES_BANK2.cpp:%.cpp=%.o)
+OBJECTS = $(OBJECTS_VBANK) $(OBJECTS_BANK1) $(OBJECTS_BANK2)
 
 # compiler, linker, and rpcgen configuration
 CC = gcc
@@ -65,4 +67,4 @@ $(TARGETS_BANK2) : $(SOURCES_BANK2.x)
 $(OBJECTS_BANK2) : $(SOURCES_BANK2.c) $(SOURCES_BANK2.h) $(TARGETS_BANK2)
 
 clean:
-	$(RM) $(TARGETS) $(OBJECTS_VBANK) $(CLIENT) *.o
+	$(RM) $(TARGETS) $(OBJECTS) $(VBANK) *.o
