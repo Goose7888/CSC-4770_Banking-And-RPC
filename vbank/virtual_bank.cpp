@@ -1,15 +1,43 @@
 /* virtual_bank.cpp */
 
 #include "virtual_bank.h"
+#include "rpc/clnt.h"
 
 int* vb_credit_1_svc(char* acct, int amount, struct svc_req*) {
-    return 0;
+    static int ret = 0;
+    std::cout << "IM REALLY LOUD!!!!" << std::endl;
+
+    CLIENT* clnt;
+    int* result;
+    char server_name[10] = "localhost";
+
+    clnt = clnt_create(server_name, BANK1PROG, BANK1VERS, "tcp");
+
+    if (clnt == NULL) {
+        clnt_pcreateerror(server_name);
+        ret = 1;
+        return &ret;
+    }
+
+    account* res = b1_acct_lookup_1(acct, clnt);
+    if (res== NULL) {
+        clnt_perror(clnt, "Call to remote procedure failed.");
+    }
+    else {
+        std::cout << res->errorcode << res->id << " " << res->balance << std::endl;
+    }
+
+    return &ret;
 }
 int* vb_debit_1_svc(char* acct, int amount, struct svc_req*) {
-    return 0;
+    static int result = 0;
+
+    return &result;
 }
 int* vb_transfer_1_svc(char* acct_1, char* acct_2, int amount, struct svc_req*) {
-    return 0;
+    static int result = 0;
+
+    return &result;
 }
 
 // Like python's string `split` method

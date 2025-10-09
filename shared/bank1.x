@@ -1,7 +1,7 @@
 const MAXLENGTH = 156;
 
 struct account {
-    string acct<MAXLENGTH>;
+    string id<MAXLENGTH>;
     int balance;
     int errorcode;
 };
