@@ -5,7 +5,3 @@
 compile_commands.json
 *.tar.gz
 sample
-vbank.x
-
-client
-virtual_bank
