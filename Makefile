@@ -40,6 +40,7 @@ reset :
 	$(RM) *.db
 
 test : $(TARGETS) test_cases.sh
+	$(RM) *.db
 	./init_db --bank1
 	./init_db --bank2
 	./test_cases.sh

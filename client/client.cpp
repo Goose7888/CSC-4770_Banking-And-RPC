@@ -118,7 +118,8 @@ int main(int argc, char** argv) {
     }
 
     if (*result == 0) {
-        std::cout << "The operation completed successfully" << std::endl;
+        // Print nothing: no news is good news
+        // std::cout << "The operation completed successfully" << std::endl;
     }
     else {
         std::cout << "A problem occured in the virtual bank." << std::endl;
