@@ -23,10 +23,11 @@ init_db :
 	cp tools/init_db .
 
 clean :
-	#$(MAKE) -C client clean
-	#$(MAKE) -C vbank clean
-	#$(MAKE) -C bank1 clean
-	#$(MAKE) -C bank2 clean
+	$(MAKE) -C client clean
+	$(MAKE) -C vbank clean
+	$(MAKE) -C bank1 clean
+	$(MAKE) -C bank2 clean
+	$(MAKE) -C tools clean
 	$(RM) $(TARGETS)
 
 reset :
