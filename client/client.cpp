@@ -9,11 +9,14 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    int amount = stoi((*args)["amount"]);
-    if (amount < 0) {
-        std::cerr << "Negative values not allowed!" << std::endl;
-        printUsage(argv);
-        return 1;
+    int amount = 0;
+    if ((*args)["operationMode"] != "query") {
+        amount = stoi((*args)["amount"]);
+        if (amount < 0) {
+            std::cerr << "Negative values not allowed!" << std::endl;
+            printUsage(argv);
+            return 1;
+        }
     }
 
     CLIENT* clnt = nullptr;
@@ -38,6 +41,8 @@ int main(int argc, char** argv) {
 
         if (result == NULL) {
             std::cerr << "An error occured connecting to the virtual bank." << std::endl;
+            delete [] rawMessage;
+            clnt_destroy(clnt);
             return 1;
         }
         delete [] rawMessage;
@@ -51,6 +56,8 @@ int main(int argc, char** argv) {
 
         if (result == NULL) {
             std::cerr << "An error occured connecting to the virtual bank." << std::endl;
+            delete [] rawMessage;
+            clnt_destroy(clnt);
             return 1;
         }
         delete [] rawMessage;
@@ -71,15 +78,42 @@ int main(int argc, char** argv) {
         result = vb_transfer_1(rawMessage1, rawMessage2, stoi((*args)["amount"]), clnt);
         if (result == NULL) {
             std::cerr << "An error occured connecting to the virtual bank." << std::endl;
+            clnt_destroy(clnt);
+            delete [] rawMessage1;
+            delete [] rawMessage2;
             return 1;
         }
 
         delete [] rawMessage1;
         delete [] rawMessage2;
     }
+    else if ((*args)["operationMode"] == "query") {
+        std::string acct = (*args)["acct_a"];
+        char* acct_cstr = new char[acct.length() + 1];
+        strcpy(acct_cstr, acct.c_str());
+
+        result = vb_query_1(acct_cstr, clnt);
+        if (result == NULL) {
+            std::cerr << "An error occured connecting to the virtual bank." << std::endl;
+            clnt_destroy(clnt);
+            delete [] acct_cstr;
+            return 1;
+        }
+        if (*result == -1) {
+            std::cerr << "Unable to look up account!" << std::endl;
+            clnt_destroy(clnt);
+            delete [] acct_cstr;
+            return 1;
+        }
+
+        std::cout << "Account: " << acct << " Balance: " << *result << std::endl;
+        *result = 0;
+        delete [] acct_cstr;
+    }
     else {
         std::cerr << "Invalid operation mode!" << std::endl;
         printUsage(argv);
+        clnt_destroy(clnt);
         return 1;
     }
 
@@ -99,7 +133,7 @@ int main(int argc, char** argv) {
 Arguments* parseArgs(int argc, char** argv) {
     static Arguments args;
 
-    if (argc < 5) {
+    if (argc < 4) {
         std::cerr << "Not enough arguments!" << std::endl;
         return nullptr;
     }
@@ -108,6 +142,15 @@ Arguments* parseArgs(int argc, char** argv) {
     args["operationMode"] = argv[2];
     args["acct_a"] = argv[3];
 
+    if (args["operationMode"] == "query" && argc < 4) {
+        std::cerr << "Not enough arguments!" << std::endl;
+        return nullptr;
+    }
+    else if (args["operationMode"] != "query" && argc < 5) {
+        std::cerr << "Not enough arguments!" << std::endl;
+        return nullptr;
+    }
+
     if (args["operationMode"] == "transfer") {
         if (argc < 6) {
             std::cerr << "Not enough arguments!" << std::endl;
@@ -115,7 +158,7 @@ Arguments* parseArgs(int argc, char** argv) {
         args["acct_b"] = argv[4];
         args["amount"] = argv[5];
     }
-    else {
+    else if (args["operationMode"] != "query") {
         args["amount"] = argv[4];
     }
 
@@ -127,5 +170,6 @@ void printUsage(char** argv) {
         << "\tWhere [OPERATION] is one of:" << std::endl
         << "\t\t\"credit\": credit [AMOUNT] to [ACCOUNT]" << std::endl
         << "\t\t\"debit\": debit [AMOUNT] from [ACCOUNT]" << std::endl
-        << "\t\t\"transfer\": transfer [AMOUNT] from first [ACCOUNT] to second [ACCOUNT]" << std::endl;
+        << "\t\t\"transfer\": transfer [AMOUNT] from first [ACCOUNT] to second [ACCOUNT]" << std::endl
+        << "\t\t\"query\": print balance of [ACCOUNT]" << std::endl;
 }

@@ -37,3 +37,9 @@ reset :
 	$(MAKE) -C bank2 clean
 	$(MAKE) -C tools clean
 	$(RM) $(TARGETS)
+	$(RM) *.db
+
+test : $(TARGETS) test_cases.sh
+	./init_db --bank1
+	./init_db --bank2
+	./test_cases.sh

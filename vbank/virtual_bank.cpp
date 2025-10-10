@@ -1,6 +1,7 @@
 /* virtual_bank.cpp */
 
 #include "virtual_bank.h"
+#include "rpc/clnt.h"
 
 int* vb_credit_1_svc(char* acct_name, int amount, struct svc_req*) {
     return vb_change_balance(acct_name, amount, CREDIT);
@@ -34,6 +35,65 @@ int* vb_transfer_1_svc(char* acct_1, char* acct_2, int amount, struct svc_req*) 
         return &ret;
     }
 
+    return &ret;
+}
+
+// returns balance of acct
+int* vb_query_1_svc(char* acct_name, struct svc_req*) {
+    static int ret = 0;
+
+    int acct_location = get_acct_location(acct_name);
+
+    CLIENT* clnt = nullptr;
+    b1_account* b1_result = nullptr;
+    b2_account* b2_result = nullptr;
+
+    switch (acct_location) {
+        case BANK1:
+            clnt = clnt_create(BANK1_ADDR, BANK1PROG, BANK1VERS, "tcp");
+            if (clnt == NULL) {
+                clnt_pcreateerror(BANK1_ADDR);
+                ret = -1;
+            }
+
+            b1_result = b1_acct_lookup_1(acct_name, clnt);
+
+            if (b1_result == NULL) {
+                std::cerr << "An error occured connecting to bank 1" << std::endl;
+                ret = -1;
+            }
+            else {
+                ret = b1_result->balance;
+            }
+
+            clnt_destroy(clnt);
+            break;
+
+        case BANK2:
+            clnt = clnt_create(BANK2_ADDR, BANK2PROG, BANK2VERS, "tcp");
+            if (clnt == NULL) {
+                clnt_pcreateerror(BANK2_ADDR);
+                ret = -1;
+            }
+
+            b2_result = b2_acct_lookup_1(acct_name, clnt);
+
+            if (b2_result == NULL) {
+                std::cerr << "An error occured connecting to bank 2" << std::endl;
+                ret = -1;
+            }
+            else {
+                ret = b2_result->balance;
+            }
+
+            clnt_destroy(clnt);
+            break;
+
+        case NO_BANK:
+            std::cerr << "Account does not exist!" << std::endl;
+            ret = -1;
+            break;
+    }
     return &ret;
 }
 
