@@ -11,9 +11,30 @@ int* vb_debit_1_svc(char* acct_name, int amount, struct svc_req*) {
 }
 
 int* vb_transfer_1_svc(char* acct_1, char* acct_2, int amount, struct svc_req*) {
-    static int result = 0;
+    static int ret = 0;
+    int* result = nullptr;
 
-    return &result;
+    result = vb_change_balance(acct_1, amount, DEBIT);
+    if (result == NULL) {
+        ret = 1;
+        return &ret;
+    }
+    else if (*result != 0) {
+        ret = 1;
+        return &ret;
+    }
+
+    result = vb_change_balance(acct_2, amount, CREDIT);
+    if (result == NULL) {
+        ret = 1;
+        return &ret;
+    }
+    else if (*result != 0) {
+        ret = 1;
+        return &ret;
+    }
+
+    return &ret;
 }
 
 int* vb_change_balance(char* acct_name, int amount, int operation_mode) {

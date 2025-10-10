@@ -1,4 +1,4 @@
-TARGETS = client.out vbank.out bank1.out bank2.out
+TARGETS = client.out vbank.out bank1.out bank2.out init_db
 
 all : $(TARGETS)
 
@@ -18,16 +18,21 @@ bank2.out :
 	$(MAKE) -C bank2
 	cp bank2/bank2 bank2.out
 
+init_db :
+	$(MAKE) -C tools
+	cp tools/init_db .
+
 clean :
 	#$(MAKE) -C client clean
 	#$(MAKE) -C vbank clean
 	#$(MAKE) -C bank1 clean
 	#$(MAKE) -C bank2 clean
-	$(RM) *.out
+	$(RM) $(TARGETS)
 
 reset :
 	$(MAKE) -C client clean
 	$(MAKE) -C vbank clean
 	$(MAKE) -C bank1 clean
 	$(MAKE) -C bank2 clean
-	$(RM) *.out
+	$(MAKE) -C tools clean
+	$(RM) $(TARGETS)

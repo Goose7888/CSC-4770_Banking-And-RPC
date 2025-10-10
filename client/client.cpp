@@ -113,6 +113,7 @@ Arguments* parseArgs(int argc, char** argv) {
             std::cerr << "Not enough arguments!" << std::endl;
         }
         args["acct_b"] = argv[4];
+        args["amount"] = argv[5];
     }
     else {
         args["amount"] = argv[4];
