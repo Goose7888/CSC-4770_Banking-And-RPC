@@ -1,3 +1,7 @@
+# Note to Readers
+
+This project was a class assignment for CSC-4770 Distributed Systems and Cloud Computing. It was assigned on Oct 1 and due on Oct 10, 2025. This was hell.
+
 # Distributed Banking System Assignment
 
 ## Introduction
